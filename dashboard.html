@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ISP Analyzer Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="dashboard-page">
+    <!-- Header Section -->
+    <header>
+      <!-- Same header as index.html -->
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard-main">
+      <!-- Sidebar -->
+      <aside class="dashboard-sidebar">
+        <nav class="sidebar-nav">
+          <ul>
+            <li class="active">
+              <a href="#overview">
+                <i class="fas fa-home"></i>
+                <span>Overview</span>
+              </a>
+            </li>
+            <li>
+              <a href="#speed-test">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Speed Test</span>
+              </a>
+            </li>
+            <li>
+              <a href="#analytics">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+              </a>
+            </li>
+            <li>
+              <a href="#providers">
+                <i class="fas fa-network-wired"></i>
+                <span>ISP Providers</span>
+              </a>
+            </li>
+            <li>
+              <a href="#settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Dashboard Content Area -->
+      <div class="dashboard-content">
+        <div class="dashboard-header">
+          <h1>Dashboard Overview</h1>
+          <div class="dashboard-actions">
+            <button class="refresh-btn">
+              <i class="fas fa-sync-alt"></i>
+              Refresh
+            </button>
+            <button class="export-btn">
+              <i class="fas fa-download"></i>
+              Export
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-download"></i>
+            </div>
+            <div class="stat-info">
+              <h3>Download Speed</h3>
+              <div class="stat-value">245 Mbps</div>
+              <div class="stat-change positive">+12.5%</div>
+            </div>
+          </div>
+          <!-- Add more stat cards -->
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+          <div class="chart-container">
+            <h2>Speed History</h2>
+            <div class="chart" id="speedChart"></div>
+          </div>
+          <div class="chart-container">
+            <h2>Network Usage</h2>
+            <div class="chart" id="usageChart"></div>
+          </div>
+        </div>
+
+        <!-- ISP Comparison -->
+        <div class="isp-comparison-section">
+          <h2>ISP Comparison</h2>
+          <div class="isp-cards">
+            <!-- ISP cards will go here -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+  </body>
+</html>
