@@ -411,19 +411,27 @@ nav {
 
 /* Hero Section Styles */
 .hero {
+  position: relative;
   padding: 8rem 5% 5rem;
   display: grid;
   place-items: center;
   text-align: center;
   background: linear-gradient(
     135deg,
-    var(--card-bg) 0%,
-    var(--background-dark) 100%
+    rgba(0, 0, 0, 0.8) 0%,
+    /* Darker gradient for better contrast */ rgba(0, 0, 0, 0.5) 100%
   );
-  background-blend-mode: overlay;
-  position: relative;
   min-height: 100vh;
   overflow: hidden;
+}
+
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Ensure it is behind the content */
 }
 
 .hero::before {
@@ -443,17 +451,16 @@ nav {
 
 .hero-content {
   max-width: 650px;
+  z-index: 2; /* Ensure content is above particles */
   animation: fadeInUp 1s ease-out;
 }
 
 .hero h1 {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   margin-bottom: 1.5rem;
-  color: var(--text-primary);
+  color: #ffffff; /* White color for main heading */
   font-weight: 800;
   line-height: 1.1;
-  letter-spacing: -1px;
-  position: relative;
 }
 
 .hero h1::after {
@@ -469,7 +476,7 @@ nav {
 
 .hero p {
   font-size: 1.2rem;
-  color: var(--text-secondary);
+  color: #e0e0e0; /* Light gray for subtext */
   margin-bottom: 2rem;
   line-height: 1.6;
   max-width: 540px;
@@ -487,13 +494,13 @@ nav {
 .primary-btn,
 .secondary-btn {
   padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  border-radius: 8px;
+  border-radius: 25px;
+  text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
-  font-size: 1.1rem;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  overflow: hidden;
+  color: #ffffff; /* Ensure button text is white */
 }
 
 .primary-btn {
@@ -502,7 +509,6 @@ nav {
     var(--primary-color),
     var(--secondary-color)
   );
-  color: white;
   border: none;
   box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
 }
@@ -1074,7 +1080,6 @@ footer,
   color: var(--primary-color);
   font-size: 1.2rem;
 }
-
 /* Benefits Section */
 .benefits {
   padding: 6rem 5%;
@@ -1110,12 +1115,14 @@ footer,
   border-radius: 16px;
   padding: 2rem;
   box-shadow: var(--card-shadow);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid var(--border-color);
+  text-align: center;
 }
 
 .benefit-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .benefit-icon {
@@ -1126,7 +1133,7 @@ footer,
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin: 0 auto 1.5rem;
 }
 
 .benefit-icon i {
@@ -1140,9 +1147,15 @@ footer,
   color: var(--text-primary);
 }
 
+.benefit-card p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
 .benefit-list {
   list-style: none;
   margin-top: 1.5rem;
+  padding-left: 0;
 }
 
 .benefit-list li {
@@ -1151,11 +1164,29 @@ footer,
   gap: 0.5rem;
   margin-bottom: 0.75rem;
   color: var(--text-secondary);
+  justify-content: center;
 }
 
 .benefit-list li::before {
   content: "→";
   color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Additional Styling for Newly Added Benefit Cards */
+.benefit-card.security {
+  background: rgba(255, 0, 0, 0.05);
+  border-left: 5px solid rgba(255, 0, 0, 0.8);
+}
+
+.benefit-card.network {
+  background: rgba(0, 128, 0, 0.05);
+  border-left: 5px solid rgba(0, 128, 0, 0.8);
+}
+
+.benefit-card.recommendations {
+  background: rgba(255, 165, 0, 0.05);
+  border-left: 5px solid rgba(255, 165, 0, 0.8);
 }
 
 /* Tech Stack Section */
@@ -1170,83 +1201,57 @@ footer,
   overflow: hidden;
 }
 
-.tech-stack::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(79, 172, 254, 0.1) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
+/* Tech Stack Section */
+.tech-stack {
+  text-align: center;
+  padding: 60px 20px;
+  background: #f8f9fa;
 }
-
 .tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 3rem;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
 }
-
 .tech-item {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   text-align: center;
-  transition: transform 0.3s ease;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
-  padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .tech-item:hover {
   transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
-
 .tech-icon {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 1rem;
-  background: rgba(79, 172, 254, 0.1);
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.5rem;
-  transition: all 0.3s ease;
+  background: #007bff;
+  border-radius: 8px;
+  margin: 0 auto 15px;
+  color: white;
+  font-size: 24px;
 }
-
 .tech-icon i {
-  font-size: 2rem;
-  color: var(--primary-color);
-  transition: all 0.3s ease;
+  font-size: 28px;
 }
-
-.tech-item:hover .tech-icon {
-  transform: scale(1.1);
-  background: rgba(79, 172, 254, 0.2);
-}
-
 .tech-item span {
-  color: var(--text-primary);
-  font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
 }
-
 .tech-item p {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 14px;
+  color: #666;
   line-height: 1.6;
-  opacity: 0.8;
 }
 
 /* Testimonials Section */

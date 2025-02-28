@@ -9,6 +9,34 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+      /* Existing styles... */
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        overflow: hidden; /* Prevents overflow */
+      }
+
+      .logo-wrapper {
+        display: flex;
+        flex-direction: column; /* Stack title and tagline */
+        align-items: flex-start; /* Align items to the start */
+      }
+
+      .logo-tagline {
+        font-size: 14px; /* Adjust font size as needed */
+        color: #aaa; /* Example color */
+        white-space: nowrap; /* Prevents line breaks */
+        overflow: hidden; /* Hides overflow */
+        text-overflow: ellipsis; /* Adds ellipsis for overflow */
+      }
+
+      /* Existing styles... */
+    </style>
   </head>
   <body>
     <!-- Header Section -->
@@ -83,25 +111,6 @@
               <span>Source Code</span>
             </a>
           </li>
-          <li class="theme-switcher">
-            <button class="theme-btn" aria-label="Theme Switcher">
-              <i class="fas fa-palette"></i>
-              <div class="theme-dropdown">
-                <div class="theme-option" data-theme="default">
-                  <span class="color-preview default"></span>
-                </div>
-                <div class="theme-option" data-theme="dark">
-                  <span class="color-preview dark"></span>
-                </div>
-                <div class="theme-option" data-theme="light">
-                  <span class="color-preview light"></span>
-                </div>
-                <div class="theme-option" data-theme="purple">
-                  <span class="color-preview purple"></span>
-                </div>
-              </div>
-            </button>
-          </li>
         </ul>
         <div class="mobile-menu">
           <div class="hamburger">
@@ -116,17 +125,13 @@
 
     <!-- Hero Section -->
     <section class="hero">
-      <div class="hero-particles" id="particles-js"></div>
+      <div id="particles-js"></div>
       <div class="hero-content">
         <h1>
           <span class="gradient-text">Find Your Perfect</span>
           <br />
           Internet Service Provider
         </h1>
-        <p>
-          AI-powered analysis to help you make informed decisions about your
-          internet connectivity
-        </p>
         <div class="cta-buttons">
           <a href="#get-started" class="primary-btn getting-started-btn">
             <i class="fas fa-rocket"></i>
@@ -280,6 +285,42 @@
             <li>Hidden fees detection</li>
           </ul>
         </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Security Insights</h3>
+          <p>Identify vulnerabilities and secure your network</p>
+          <ul class="benefit-list">
+            <li>Threat detection</li>
+            <li>Privacy analysis</li>
+            <li>Firewall assessment</li>
+          </ul>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-network-wired"></i>
+          </div>
+          <h3>Connectivity Analysis</h3>
+          <p>Assess network performance across devices</p>
+          <ul class="benefit-list">
+            <li>Device monitoring</li>
+            <li>Signal strength evaluation</li>
+            <li>Network congestion insights</li>
+          </ul>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-user-cog"></i>
+          </div>
+          <h3>Custom Recommendations</h3>
+          <p>Get personalized internet optimization tips</p>
+          <ul class="benefit-list">
+            <li>Plan suggestions</li>
+            <li>Speed improvement tips</li>
+            <li>ISP performance insights</li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -289,6 +330,7 @@
         <h2>Powered by Advanced Technology</h2>
         <p>Using cutting-edge tools for accurate analysis</p>
       </div>
+
       <div class="tech-grid">
         <div class="tech-item">
           <div class="tech-icon">
@@ -297,6 +339,7 @@
           <span>AI Analysis</span>
           <p>Advanced artificial intelligence for precise recommendations</p>
         </div>
+
         <div class="tech-item">
           <div class="tech-icon">
             <i class="fas fa-microchip"></i>
@@ -304,12 +347,37 @@
           <span>Machine Learning</span>
           <p>Self-improving algorithms for better accuracy</p>
         </div>
+
         <div class="tech-item">
           <div class="tech-icon">
             <i class="fas fa-cloud"></i>
           </div>
           <span>Cloud Computing</span>
           <p>Scalable infrastructure for real-time analysis</p>
+        </div>
+
+        <div class="tech-item">
+          <div class="tech-icon">
+            <i class="fas fa-network-wired"></i>
+          </div>
+          <span>Big Data Processing</span>
+          <p>Handling massive datasets for deeper insights and trends</p>
+        </div>
+
+        <div class="tech-item">
+          <div class="tech-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <span>Cybersecurity</span>
+          <p>Ensuring data protection with top security protocols</p>
+        </div>
+
+        <div class="tech-item">
+          <div class="tech-icon">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <span>Data Visualization</span>
+          <p>Transforming complex data into clear, actionable insights</p>
         </div>
       </div>
     </section>
@@ -324,7 +392,6 @@
         <!-- Testimonial cards will be added here -->
       </div>
     </section>
-
     <!-- Footer -->
     <footer>
       <div class="footer-content">
@@ -361,5 +428,117 @@
       </div>
     </footer>
     <script src="script.js"></script>
+    <script>
+      particlesJS("particles-js", {
+        particles: {
+          number: {
+            value: 60,
+            density: {
+              enable: true,
+              value_area: 800,
+            },
+          },
+          color: {
+            value: "#00f2fe",
+          },
+          shape: {
+            type: ["circle", "triangle"],
+            stroke: {
+              width: 0,
+              color: "#000000",
+            },
+            polygon: {
+              nb_sides: 5,
+            },
+            image: {
+              src: "img/github.svg",
+              width: 100,
+              height: 100,
+            },
+          },
+          opacity: {
+            value: 0.6,
+            random: true,
+            anim: {
+              enable: true,
+              speed: 1,
+              opacity_min: 0.1,
+              sync: false,
+            },
+          },
+          size: {
+            value: 4,
+            random: true,
+            anim: {
+              enable: true,
+              speed: 20,
+              size_min: 0.1,
+              sync: false,
+            },
+          },
+          line_linked: {
+            enable: true,
+            distance: 120,
+            color: "#00f2fe",
+            opacity: 0.5,
+            width: 1.5,
+          },
+          move: {
+            enable: true,
+            speed: 4,
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+            attract: {
+              enable: false,
+              rotateX: 600,
+              rotateY: 1200,
+            },
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: true,
+              mode: "repulse",
+            },
+            onclick: {
+              enable: true,
+              mode: "push",
+            },
+            resize: true,
+          },
+          modes: {
+            grab: {
+              distance: 400,
+              line_linked: {
+                opacity: 1,
+              },
+            },
+            bubble: {
+              distance: 400,
+              size: 40,
+              duration: 2,
+              opacity: 8,
+              speed: 3,
+            },
+            repulse: {
+              distance: 200,
+              duration: 0.4,
+            },
+            push: {
+              particles_nb: 4,
+            },
+            remove: {
+              particles_nb: 2,
+            },
+          },
+        },
+        retina_detect: true,
+      });
+    </script>
   </body>
 </html>
