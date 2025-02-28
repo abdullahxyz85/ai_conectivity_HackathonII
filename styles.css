@@ -6,11 +6,17 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Roboto", sans-serif;
   line-height: 1.6;
   background-color: var(--body-bg);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Montserrat", sans-serif;
 }
 
 /* Header Styles */
@@ -456,10 +462,10 @@ nav {
 }
 
 .hero h1 {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: clamp(3rem, 5vw, 5rem);
   margin-bottom: 1.5rem;
   color: #ffffff; /* White color for main heading */
-  font-weight: 800;
+  font-weight: 800; /* Bold weight for emphasis */
   line-height: 1.1;
 }
 
@@ -565,8 +571,10 @@ nav {
 }
 
 .features h2 {
+  font-family: "Montserrat", sans-serif;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
+  color: #333;
   font-size: 2.5rem;
 }
 
