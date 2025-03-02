@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoodVendor Chatbot</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        color: #ffffff;
+        background: #0a0a0a;
+        overflow: hidden;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+      }
+
+      #backgroundVideo {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: -1;
+        filter: brightness(0.3);
+      }
+
+      #startChatButton {
+        background: rgba(0, 255, 255, 0.7);
+        border: 2px solid #00ffff;
+        color: #1c1c1c;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: all 0.3s;
+      }
+
+      #startChatButton:hover {
+        background-color: #00ffff;
+        box-shadow: 0 0 20px #00ffff;
+      }
+
+      #chatContainer {
+        display: none;
+        width: 90vw;
+        max-width: 700px;
+        background: rgba(20, 20, 20, 0.9);
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        flex-direction: column;
+        height: 90vh;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      #chatContainer.active {
+        display: flex;
+        opacity: 1;
+      }
+
+      #chatBox {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem;
+        background: rgba(40, 40, 40, 0.8);
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .message {
+        padding: 0.75rem;
+        border-radius: 5px;
+        max-width: 85%;
+        word-wrap: break-word;
+        line-height: 1.5;
+        font-size: 0.9rem;
+      }
+
+      .user {
+        background: rgba(0, 255, 255, 0.2);
+        color: #00ffff;
+        align-self: flex-end;
+      }
+
+      .goodvendor {
+        background: rgba(255, 255, 255, 0.1);
+        color: #e0e0e0;
+        align-self: flex-start;
+      }
+
+      #inputContainer {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      #userInput {
+        flex: 1;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: none;
+        background: rgba(60, 60, 60, 0.8);
+        color: #ffffff;
+        outline: none;
+        min-width: 0;
+      }
+
+      #userInput::placeholder {
+        color: #a0a0a0;
+      }
+
+      button {
+        background: rgba(0, 255, 255, 0.7);
+        border: 2px solid #00ffff;
+        color: #1c1c1c;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s;
+        min-width: 80px;
+      }
+
+      button:hover {
+        background-color: #00ffff;
+        box-shadow: 0 0 15px #00ffff;
+      }
+
+      .provider-list,
+      .resource-list {
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0;
+      }
+
+      .provider-list li,
+      .resource-list li {
+        margin: 0.5rem 0;
+        font-size: 0.85rem;
+      }
+
+      a {
+        color: #00ffff;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
+        body {
+          font-size: 14px;
+        }
+
+        #startChatButton {
+          padding: 0.75rem 1.5rem;
+          font-size: 1.2rem;
+        }
+
+        #chatContainer {
+          width: 95vw;
+          height: 95vh;
+          padding: 0.75rem;
+        }
+
+        #chatBox {
+          padding: 0.75rem;
+          gap: 0.75rem;
+        }
+
+        .message {
+          font-size: 0.85rem;
+          padding: 0.5rem;
+        }
+
+        #userInput {
+          padding: 0.5rem;
+          font-size: 0.9rem;
+        }
+
+        button {
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+          min-width: 60px;
+        }
+
+        #inputContainer {
+          flex-direction: column;
+        }
+      }
+
+      @media (min-width: 769px) {
+        #chatContainer {
+          width: 80vw;
+          max-width: 700px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <video id="backgroundVideo" autoplay loop muted>
+      <source
+        src="https://cdn.pixabay.com/video/2016/02/12/2127-155244168_large.mp4"
+        type="video/mp4"
+      />
+    </video>
+
+    <button id="startChatButton">Start GoodVendor Chat</button>
+    <div id="chatContainer">
+      <div id="chatBox"></div>
+      <div id="inputContainer">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="E.g., 'compare [ISP name] in [location]'"
+        />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <script>
+      const API_KEY = "3bbb0c0faeba487b87a83cd5fa7bf7ea";
+
+      // Mock ISP data (replace with real API in production)
+      const ispData = {
+        Ahmedabad: {
+          Airtel: {
+            speed: "300-1000 Mbps",
+            price: "$40-$90/mo",
+            details: "Fiber optic, 5G available in South Bopal and other areas",
+          },
+          Jio: {
+            speed: "150-1000 Mbps",
+            price: "$20-$80/mo",
+            details: "Fiber optic, widespread coverage",
+          },
+          BSNL: {
+            speed: "100-500 Mbps",
+            price: "$15-$50/mo",
+            details: "Affordable, government-backed",
+          },
+        },
+        "San Francisco": {
+          Sonic: {
+            speed: "100-10000 Mbps",
+            price: "$50/mo",
+            details: "Fiber, unlimited data",
+          },
+          Xfinity: {
+            speed: "150-1200 Mbps",
+            price: "$20-$75/mo",
+            details: "Cable, contract optional",
+          },
+        },
+      };
+
+      // Resource Hub datasets
+      const resources = {
+        "Giga School Mapping Data": {
+          link: "Google Drive Folder",
+          desc: "School geolocation and connectivity data.",
+        },
+        OpenCellID: {
+          link: "https://opencellid.org/downloads.php",
+          desc: "Cell tower locations.",
+        },
+        "Ookla Speedtest": {
+          link: "https://registry.opendata.aws/speedtest-global-performance/",
+          desc: "Global performance data.",
+        },
+        "Africa Bandwidth Maps": {
+          link: "https://www.africabandwidthmaps.com/",
+          desc: "Connectivity backbone maps.",
+        },
+        "Broadband Maps": {
+          link: "https://bbmaps.itu.int/bbmaps/",
+          desc: "Global broadband overview.",
+        },
+      };
+
+      let userLocation = null;
+      let savedPreferences = [];
+
+      // Start chat
+      document
+        .getElementById("startChatButton")
+        .addEventListener("click", function () {
+          this.style.display = "none";
+          document.getElementById("chatContainer").classList.add("active");
+          displayMessage(
+            "GoodVendor: Welcome! I can compare ISPs (e.g., 'compare [ISP name] in [location]'), search anything, or list resources. Type 'help' for options.",
+            "goodvendor"
+          );
+        });
+
+      // Send message handler
+      async function sendMessage() {
+        const inputField = document.getElementById("userInput");
+        const chatBox = document.getElementById("chatBox");
+        let userMessage = inputField.value.trim();
+        if (userMessage === "") return;
+
+        displayMessage("You: " + userMessage, "user");
+        inputField.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        const lowerMessage = userMessage.toLowerCase();
+        if (lowerMessage.startsWith("compare")) {
+          const compareMatch = userMessage.match(
+            /^compare\s+([a-z]+)\s+in\s+(.+)$/i
+          );
+          if (compareMatch) {
+            const isp =
+              compareMatch[1].charAt(0).toUpperCase() +
+              compareMatch[1].slice(1);
+            const location = compareMatch[2];
+            compareNetwork(isp, location);
+          } else {
+            displayMessage(
+              "GoodVendor: Please specify an ISP and location, e.g., 'compare [ISP name] in [location]'.",
+              "goodvendor"
+            );
+          }
+        } else if (lowerMessage.startsWith("save")) {
+          const ispName = userMessage.split("save ")[1];
+          if (ispName) savePreference(ispName);
+          else
+            displayMessage(
+              "GoodVendor: Please specify an ISP to save, e.g., 'save Jio'.",
+              "goodvendor"
+            );
+        } else if (lowerMessage.startsWith("show saved")) {
+          showSavedPreferences();
+        } else if (lowerMessage.startsWith("clear saved")) {
+          savedPreferences = [];
+          displayMessage(
+            "GoodVendor: Your saved preferences have been cleared.",
+            "goodvendor"
+          );
+        } else if (lowerMessage.startsWith("help")) {
+          displayMessage(
+            "GoodVendor: Commands:<br>- 'compare [ISP] in [location]' (e.g., 'compare [ISP name] in [location]')<br>- 'save [ISP name]': Save a preference<br>- 'show saved': View saved ISPs<br>- 'clear saved': Reset preferences<br>- 'resources': List datasets<br>- 'optimize': Network tips<br>- 'procurement': Procurement data<br>- Anything else: General search",
+            "goodvendor"
+          );
+        } else if (lowerMessage.startsWith("resources")) {
+          listResources();
+        } else if (lowerMessage.startsWith("optimize")) {
+          networkOptimization();
+        } else if (lowerMessage.startsWith("procurement")) {
+          procurementData();
+        } else {
+          // Fallback to general search for non-command inputs
+          await generalSearch(userMessage);
+        }
+      }
+
+      // General search using AI/ML API
+      async function generalSearch(query) {
+        try {
+          let response = await fetch(
+            "https://api.aimlapi.com/v1/chat/completions",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${API_KEY}`,
+              },
+              body: JSON.stringify({
+                model: "mistralai/Mistral-7B-Instruct-v0.2",
+                messages: [
+                  {
+                    role: "system",
+                    content:
+                      "You are GoodVendor, a helpful assistant for network and connectivity queries.",
+                  },
+                  { role: "user", content: query },
+                ],
+                temperature: 0.7,
+                max_tokens: 256,
+              }),
+            }
+          );
+          let data = await response.json();
+          displayMessage(
+            "GoodVendor: " +
+              (data.choices[0].message.content ||
+                "Sorry, I couldn’t find an answer."),
+            "goodvendor"
+          );
+        } catch (error) {
+          console.error("Error fetching AI/ML response:", error);
+          displayMessage(
+            "GoodVendor: Oops, something went wrong with the search. Try again!",
+            "goodvendor"
+          );
+        }
+      }
+
+      // Compare specific ISP in a location
+      function compareNetwork(isp, location) {
+        const cityMatch =
+          location.split(",").map((part) => part.trim())[1] || location;
+        const cityData = ispData[cityMatch] || {};
+        const provider = cityData[isp];
+
+        let response = `GoodVendor: Comparing ${isp} in ${location}:<ul class="provider-list">`;
+        if (provider) {
+          response += `<li>${isp}: Speed: ${provider.speed}, Price: ${provider.price}, Details: ${provider.details}</li>`;
+          response += `<li><b>Additional Insights:</b><br>- <a href="${
+            resources["Ookla Speedtest"]?.link || "#"
+          }">Ookla Speedtest</a>: Check real-world speeds<br>- <a href="${
+            resources["OpenCellID"]?.link || "#"
+          }">OpenCellID</a>: Cell tower proximity</li>`;
+        } else {
+          response += `<li>No data available for ${isp} in ${location}. Try another ISP or location.</li>`;
+        }
+        response +=
+          "</ul>Type 'resources' for more data sources or 'help' for options.";
+        displayMessage(response, "goodvendor");
+        userLocation = cityMatch; // Set userLocation for saving preferences
+      }
+
+      // Fetch ISP data (not used directly now, kept for potential future use)
+      async function fetchISPData(location) {
+        const cityMatch =
+          location.split(",").map((part) => part.trim())[1] || location;
+        const providers = ispData[cityMatch] || {};
+        let response = `GoodVendor: Exploring connectivity in ${location}:<ul class="provider-list">`;
+        if (Object.keys(providers).length > 0) {
+          response += "<li><b>Local ISPs:</b>";
+          for (const [name, data] of Object.entries(providers)) {
+            response += `<br>- ${name}: ${data.speed}, ${data.price} - ${data.details}`;
+          }
+          response += "</li>";
+        }
+        response += `<li><b>Connectivity Insights:</b><br>- <a href="${
+          resources["Giga School Mapping Data"]?.link || "#"
+        }">Giga School Data</a>: School connectivity<br>- <a href="${
+          resources["OpenCellID"]?.link || "#"
+        }">OpenCellID</a>: Cell towers<br>- <a href="${
+          resources["Ookla Speedtest"]?.link || "#"
+        }">Ookla Speedtest</a>: Performance data</li>`;
+        response +=
+          "</ul>Type 'compare [ISP] in [location]', 'resources', or 'help'.";
+        displayMessage(response, "goodvendor");
+      }
+
+      // Save ISP preference
+      function savePreference(ispName) {
+        const cityMatch = userLocation;
+        const providers = ispData[cityMatch] || {};
+        const isp = Object.entries(providers).find(
+          ([name]) => name.toLowerCase() === ispName.toLowerCase()
+        );
+        if (isp) {
+          if (!savedPreferences.some((p) => p.name === isp[0])) {
+            savedPreferences.push({ name: isp[0], ...isp[1] });
+            displayMessage(
+              `GoodVendor: Saved ${isp[0]} to your preferences! Use 'show saved' to see them.`,
+              "goodvendor"
+            );
+          } else {
+            displayMessage(
+              `GoodVendor: ${isp[0]} is already saved!`,
+              "goodvendor"
+            );
+          }
+        } else {
+          displayMessage(
+            `GoodVendor: "${ispName}" not found in ${
+              userLocation || "your last specified location"
+            }. Use 'compare [ISP] in [location]' first to set a location, then try again.`,
+            "goodvendor"
+          );
+        }
+      }
+
+      // Show saved preferences
+      function showSavedPreferences() {
+        if (savedPreferences.length === 0) {
+          displayMessage(
+            "GoodVendor: You haven’t saved any preferences yet.",
+            "goodvendor"
+          );
+        } else {
+          let response =
+            "GoodVendor: Your saved preferences:<ul class='provider-list'>";
+          savedPreferences.forEach((p) => {
+            response += `<li>${p.name}: ${p.speed}, ${p.price} - ${p.details}</li>`;
+          });
+          response += "</ul>Use 'clear saved' to reset.";
+          displayMessage(response, "goodvendor");
+        }
+      }
+
+      // List connectivity resources
+      function listResources() {
+        let response =
+          "GoodVendor: Connectivity Resources:<ul class='resource-list'>";
+        for (const [name, info] of Object.entries(resources)) {
+          response += `<li><a href="${info.link}" target="_blank">${name}</a>: ${info.desc}</li>`;
+        }
+        response += "</ul>Explore these for deeper insights!";
+        displayMessage(response, "goodvendor");
+      }
+
+      // Network optimization suggestions
+      function networkOptimization() {
+        let response =
+          "GoodVendor: Network Optimization Tools:<ul class='resource-list'>";
+        response += `<li><a href="${
+          resources["Infinite Dataset Hub - 5G"]?.link || "#"
+        }">5G Optimization</a>: AI strategies for 5G</li>`;
+        response += `<li><a href="${
+          resources["IODA"]?.link || "#"
+        }">IODA</a>: Detect outages</li>`;
+        response += "</ul>Try these for smarter networks!";
+        displayMessage(response, "goodvendor");
+      }
+
+      // Procurement data
+      function procurementData() {
+        let response =
+          "GoodVendor: Procurement Resources:<ul class='resource-list'>";
+        response += `<li><a href="${
+          resources["GPPD"]?.link || "#"
+        }">GPPD</a>: Global procurement data</li>`;
+        response += `<li><a href="${
+          resources["OCDS"]?.link || "#"
+        }">OCDS</a>: Open contracting standard</li>`;
+        response += "</ul>Use these for policy insights.";
+        displayMessage(response, "goodvendor");
+      }
+
+      // Display message in chat and speak it
+      function displayMessage(text, className) {
+        const chatBox = document.getElementById("chatBox");
+        let div = document.createElement("div");
+        div.classList.add("message", className);
+        div.innerHTML = text;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Speak the message (only for GoodVendor responses)
+        if (className === "goodvendor") {
+          const utterance = new SpeechSynthesisUtterance();
+          // Strip HTML tags for clean speech
+          const plainText = text
+            .replace(/<[^>]+>/g, "")
+            .replace("GoodVendor: ", "");
+          utterance.text = plainText;
+
+          // Set voice (prefer English voices, fallback to default)
+          const voices = window.speechSynthesis.getVoices();
+          utterance.voice =
+            voices.find((voice) => voice.lang.includes("en")) || voices[0];
+          utterance.rate = 1.0; // Normal speed
+          utterance.pitch = 1.0; // Normal pitch
+          utterance.volume = 1.0; // Full volume
+
+          // Speak the message
+          window.speechSynthesis.speak(utterance);
+        }
+      }
+
+      // Load voices on page load (some browsers need this)
+      window.speechSynthesis.onvoiceschanged = function () {
+        window.speechSynthesis.getVoices();
+      };
+
+      // Enter key listener
+      document
+        .getElementById("userInput")
+        .addEventListener("keypress", function (event) {
+          if (event.key === "Enter") sendMessage();
+        });
+    </script>
+  </body>
+</html>
