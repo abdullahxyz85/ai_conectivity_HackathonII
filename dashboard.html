@@ -4,17 +4,130 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ISP Analyzer Dashboard</title>
-    <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="styles.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+      /* Existing styles... */
+
+      header {
+        background-color:black;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        overflow: hidden; /* Prevents overflow */
+      }
+
+      .logo-wrapper {
+        display: flex;
+        flex-direction: column; /* Stack title and tagline */
+        align-items: flex-start; /* Align items to the start */
+      }
+
+      .logo-tagline {
+        font-size: 14px; /* Adjust font size as needed */
+        color: #aaa; /* Example color */
+        white-space: nowrap; /* Prevents line breaks */
+        overflow: hidden; /* Hides overflow */
+        text-overflow: ellipsis; /* Adds ellipsis for overflow */
+      }
+
+      /* Existing styles... */
+    </style> 
   </head>
   <body class="dashboard-page">
     <!-- Header Section -->
-    <header>
-      <!-- Same header as index.html -->
+     <!-- Header Section -->
+     <header>
+      <nav>
+        <div class="logo">
+          <div class="logo-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 0C8.95 0 0 8.95 0 20C0 31.05 8.95 40 20 40C31.05 40 40 31.05 40 20C40 8.95 31.05 0 20 0ZM30 22H22V30H18V22H10V18H18V10H22V18H30V22Z"
+                fill="url(#paint0_linear)"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear"
+                  x1="0"
+                  y1="0"
+                  x2="40"
+                  y2="40"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#4FACFE" />
+                  <stop offset="1" stop-color="#00F2FE" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="logo-wrapper">
+            <div class="logo-text">
+              <span class="logo-text-isp">ISP</span>
+              <span class="logo-text-analyzer">Analyzer</span>
+              <span class="logo-text-pro">Pro</span>
+            </div>
+            <span class="logo-tagline">Smart Internet Solutions</span>
+          </div>
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="index.html" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="#features" class="nav-link">
+              <i class="fas fa-star"></i>
+              <span>Features</span>
+            </a>
+          </li>
+          <li>
+            <a href="#how-it-works" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span>How It Works</span>
+            </a>
+          </li>
+          <li>
+            <a href="dashboard.html" class="nav-link dashboard-link">
+              <i class="fas fa-chart-line"></i>
+              <span>Dashboard</span>
+              <span class="nav-badge">Live</span>
+            </a>
+          </li>
+          <li>
+            <a href="#github" class="nav-link">
+              <i class="fab fa-github"></i>
+              <span>Source Code</span>
+            </a>
+          </li>
+        </ul>
+        <div class="mobile-menu">
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </nav>
+      <div class="header-backdrop"></div>
     </header>
 
     <!-- Dashboard Content -->
