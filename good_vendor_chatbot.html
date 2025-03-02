@@ -23,6 +23,7 @@
         justify-content: center;
         align-items: center;
         font-size: 16px;
+        position: relative;
       }
 
       #backgroundVideo {
@@ -215,6 +216,29 @@
           max-width: 700px;
         }
       }
+
+      .header {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+      }
+
+      #backButton {
+        background: rgba(0, 255, 255, 0.7);
+        border: 2px solid #00ffff;
+        color: #1c1c1c;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s;
+      }
+
+      #backButton:hover {
+        background-color: #00ffff;
+        box-shadow: 0 0 15px #00ffff;
+      }
     </style>
   </head>
   <body>
@@ -225,7 +249,12 @@
       />
     </video>
 
+    <div class="header">
+      <button id="backButton" style="display: none">Back to Home Page</button>
+    </div>
+
     <button id="startChatButton">Start GoodVendor Chat</button>
+
     <div id="chatContainer">
       <div id="chatBox"></div>
       <div id="inputContainer">
@@ -307,10 +336,18 @@
         .addEventListener("click", function () {
           this.style.display = "none";
           document.getElementById("chatContainer").classList.add("active");
+          document.getElementById("backButton").style.display = "block";
           displayMessage(
             "GoodVendor: Welcome! I can compare ISPs (e.g., 'compare [ISP name] in [location]'), search anything, or list resources. Type 'help' for options.",
             "goodvendor"
           );
+        });
+
+      // Back button functionality
+      document
+        .getElementById("backButton")
+        .addEventListener("click", function () {
+          window.location.href = "index.html";
         });
 
       // Send message handler
@@ -404,7 +441,7 @@
           displayMessage(
             "GoodVendor: " +
               (data.choices[0].message.content ||
-                "Sorry, I couldn’t find an answer."),
+                "Sorry, I couldn't find an answer."),
             "goodvendor"
           );
         } catch (error) {
@@ -499,7 +536,7 @@
       function showSavedPreferences() {
         if (savedPreferences.length === 0) {
           displayMessage(
-            "GoodVendor: You haven’t saved any preferences yet.",
+            "GoodVendor: You haven't saved any preferences yet.",
             "goodvendor"
           );
         } else {
